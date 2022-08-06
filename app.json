@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "ContextApiAutentication",
+    "slug": "ContextApiAutentication",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
