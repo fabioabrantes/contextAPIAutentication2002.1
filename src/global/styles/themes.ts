@@ -11,7 +11,7 @@ export const THEME = {
 
     line:'#ebebf0',
 
-    main:'#dc1637',
+    main:'green',
     main_light: '#fdedef',
 
     shape:'#e1e1e8',

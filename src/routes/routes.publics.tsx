@@ -21,9 +21,6 @@ export function AuthRoutes(){
         <Screen 
           name='RegisterUser' 
           component={RegisterUser}
-          options={{
-            headerShown:true, 
-            header:()=><Header navigationPage="Login" title='Tela de Cadastro'/>}}
         />
        
       </Navigator>

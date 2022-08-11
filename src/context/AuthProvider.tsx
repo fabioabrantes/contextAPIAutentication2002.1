@@ -20,36 +20,36 @@ interface IContexto{
   deslogar(): Promise<void>;
   isLogado:boolean;
 }
-const AuthContext = createContext({} as IContexto);
+const AuthContext = createContext<IContexto>({} as IContexto);
+
 
 export function AuthProvider({children}){
   const [user, setUser] = useState<User | null>(null);
 
   
-  async function logar(email:string, password:string){
-    console.log(email, password);
+  async function logar(email:string, password:string){   
     
-    const dados ={
+    try {
+      const dados ={
         email, password
+      }
+      const response =  await API.post('auth', dados);
+      const {user, token} = response.data as ResponseData;
+
+      API.defaults.headers.common.Authorization = `Bearer ${token}`;
+    
+      await AsyncStorage.setItem('Auth.user', JSON.stringify(user));
+      await AsyncStorage.setItem('Auth.token', token);
+      setUser(user);
+    } catch (error) {
+      console.log(error);
     }
-
-    const response =  await API.post('auth', dados);
-    const {user, token} = response.data as ResponseData;
-
-    API.defaults.headers.common.Authorization = `Bearer ${token}`;
-   
-    await AsyncStorage.setItem('Auth.user', JSON.stringify(user));
-    await AsyncStorage.setItem('Auth.token', token);
-
-    setUser(user);
   }
 
   async function deslogar(){
-    console.log('deslogou',isLoading);
     setUser(null);
     await AsyncStorage.removeItem('Auth.user');
     await AsyncStorage.removeItem('Auth.token');
-    console.log('deslogou',isLoading);
   }
 
   useEffect(() => {
@@ -67,7 +67,7 @@ export function AuthProvider({children}){
   
   return (
     <AuthContext.Provider
-      value={{user,logar,deslogar, isLogado: !!user}} 
+      value={{logar,user,deslogar, isLogado:!!user}} 
     >
       {children}
     </AuthContext.Provider>

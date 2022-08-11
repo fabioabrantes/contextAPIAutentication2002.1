@@ -10,8 +10,8 @@ type FormData = {
 };
 
 interface Props extends InputCustomProps{
-  control:Control<FormData>;
-  name:"email" | "password" | "name";
+  control:Control;
+  name:"email" | "password" | "name" | "price" | "description";
   error:FieldValues;
 }
 export function InputForm({

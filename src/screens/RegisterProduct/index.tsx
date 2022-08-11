@@ -6,13 +6,13 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
-import { useTheme } from 'styled-components';
 
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useFocusEffect} from '@react-navigation/native';
+import {useMyContext} from '../../context/AuthProvider';
 
 import {useForm} from'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
-import {schemaValidationRegister} from '../../utils/validationYup';
+import {schemaValidationRegisterProduct} from '../../utils/validationYup';
 
 import api from '../../api';
 
@@ -24,12 +24,12 @@ import {
   Container,
   Header,
   UserContainer,
+  UserInfo,
+  Photo,
   User,
-  UserGreeting,
-  LogoutButton,
-  Icon,
-  HeaderSubtitle,
-  Title,
+  UserName,
+  Product,
+  ProductText,
   Form,
   Footer,
 } from './styles';
@@ -38,8 +38,8 @@ import {
 
 type FormData = {
   name?: string;
-  email: string;
-  password: string;
+  price: string;
+  description: string;
 };
 
 interface User{
@@ -47,39 +47,39 @@ interface User{
   name:string;
 }
 
-export function RegisterUser() {
+export function RegisterProduct() {
   const [isLoading, setIsLoading] = useState(false);
+  const [userAuth, setUserAuth] = useState<User | null>(null);
 
   const navigation = useNavigation();
-  const theme = useTheme();
-
-
+  const {user} = useMyContext();
+  
   const {
     control, 
     handleSubmit,
     formState: { errors } 
-  } = useForm<FormData>({
-    resolver:yupResolver(schemaValidationRegister)
+  } = useForm({
+    resolver:yupResolver(schemaValidationRegisterProduct)
   });
    
-  function goToPageLogin(){
-    navigation.navigate('Login');
-  }
-
-  async function handleRegisterUser({email,name,password}:FormData){
+ 
+  async function handleRegisterProduct({name,price,description}:FormData){
     const data = {
       name,
-      email,
-      password 
+      price:parseFloat(price),
+      description 
     }
 
-    const user = await api.post('users',data);
+    setIsLoading(true);
+    await api.post('products',data);
     setIsLoading(false);
-    console.log(user);
 
-    navigation.navigate('Login');
+    navigation.navigate('Home');
   }
 
+  useFocusEffect(()=>{
+    setUserAuth(user);
+  });
 
   return (
     <Container>
@@ -92,57 +92,55 @@ export function RegisterUser() {
               />
               <Header>
                 <UserContainer>
-                  <User>
-                      <UserGreeting>Tela de Cadastro</UserGreeting>
-                  </User>
-                  
-                  <LogoutButton onPress={goToPageLogin}>
-                    <Icon name="arrow-left" color={theme.colors.main_light}/>
-                  </LogoutButton>
+                  <UserInfo>
+                    <Photo source={{uri:'https://avatars.githubusercontent.com/u/62598805?v=4'}}/>
+                    <User>
+                      <UserName>{userAuth?.name}</UserName>
+                    </User>
+                  </UserInfo>
+
+                  <Product>
+                     <ProductText>Cadastre o Produto no sistema do IFPB.</ProductText>
+                  </Product>
                 </UserContainer>
               </Header>
 
-              <HeaderSubtitle>
-                <Title>
-                  Faça seu Cadastro no sistema do IFPB.
-                </Title>
-              </HeaderSubtitle>
-
               <Form>
-              <InputForm 
+                <InputForm 
                   iconName="edit"
                   name="name"
                   control={control}
-                  placeholder="Digite seu nome"
+                  placeholder="Digite o nome do produto"
                   autoCorrect={false}/* não fica corrigindo palavras */
                   autoCapitalize="none" /* não fica induzindo a colocar a primeira letra maiúscula */
                   error={errors.name}
                 />
                 
                 <InputForm 
-                  iconName="mail"
-                  name="email"
+                  iconName="edit"
+                  name="price"
                   control={control}
-                  placeholder="Digite seu E-mail"
-                  keyboardType="email-address"
-                  autoCorrect={false}
-                  autoCapitalize="none" 
-                  error={errors.email}
+                  placeholder="Digite o preço do produto"
+                  autoCorrect={false}/* não fica corrigindo palavras */
+                  autoCapitalize="none" /* não fica induzindo a colocar a primeira letra maiúscula */
+                  error={errors.price}
                 />
                 
                 <InputForm 
-                  iconName="lock"
-                  name="password"
+                  iconName="edit"
+                  name="description"
                   control={control}
-                  placeholder="Digite sua Senha"
-                  error={errors.password}
+                  placeholder="Digite a descrição do produto"
+                  autoCorrect={false}/* não fica corrigindo palavras */
+                  autoCapitalize="none" /* não fica induzindo a colocar a primeira letra maiúscula */
+                  error={errors.description}
                 />
               </Form>
 
               <Footer>
                 <ButtonCustom
                   title="Cadastrar"
-                  onPress={handleSubmit(handleRegisterUser)}
+                  onPress={handleSubmit(handleRegisterProduct)}
                   loading={isLoading}
                 />
               </Footer>

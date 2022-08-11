@@ -22,3 +22,12 @@ export const schemaValidationRegister = Yup.object({
            .max(10,'password maior que 10 caracteres')
            .required('Por favor, forneça uma senha!'),
    });
+
+   export const schemaValidationRegisterProduct = Yup.object({
+      name: Yup.string()
+            .required('Por favor, forneça o nome do produto!'),
+      price: Yup.string()
+            .required('Por favor, forneça o preço do produto!'),
+     description: Yup.string()
+            .required('Por favor, forneça uma desrição do produto!'),
+   });

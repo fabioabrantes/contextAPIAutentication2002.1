@@ -50,7 +50,9 @@ export function Login() {
   });
   
   function handleCreateUser(){
+    setIsLoading(true);
     navigation.navigate('RegisterUser');
+    setIsLoading(false);
   }
 
   async function handleSignIn({email,password}:FormDataLogin){
@@ -112,8 +114,6 @@ export function Login() {
                   title="Criar conta gratuita"
                   color={theme.colors.secondary}
                   onPress={handleCreateUser}
-                  disabled={true}
-                  loading={false}
                 />
               </Footer>
         </KeyboardAvoidingView>

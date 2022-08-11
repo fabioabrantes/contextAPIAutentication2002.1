@@ -6,10 +6,6 @@ import {RFPercentage,RFValue} from 'react-native-responsive-fontsize';
 import {ProductCardProps} from '../../components/ProductCard';
 
 
-type props = {
-  index:number;
-}
-
 export const Container = styled.View`
   flex:1;
   background-color:${({theme})=>theme.colors.background_primary};
@@ -24,7 +20,7 @@ export const Header = styled.View`
   background-color:${(props)=> props.theme.colors.secondary};
 `;
 
-export const UserContainer = styled.View<props>`
+export const UserContainer = styled.View`
   width: 100%;
   padding:0 24px;
   margin-top: 57px;

@@ -15,7 +15,7 @@ export function ErrorInput({description}:Props) {
   );
 }
 export const Container = styled.View`
-  margin-top:10;
+  margin-top:10px;
 `;
 export const ErrorText = styled.Text`
   color:${({theme})=>theme.colors.main}

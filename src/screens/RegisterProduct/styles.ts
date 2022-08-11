@@ -8,9 +8,10 @@ export const Container = styled.View`
   
   background-color: ${({theme})=>theme.colors.background_primary}
 `;
+
 export const Header = styled.View`
   width:100%;
-  height: ${RFPercentage(20)}px;
+  height: ${RFPercentage(30)}px;
   justify-content:center;
   align-items:flex-start;
   flex-direction:row;
@@ -21,39 +22,38 @@ export const UserContainer = styled.View`
   width: 100%;
   padding:0 24px;
   margin-top: 57px;
+  justify-content:flex-start;
+  align-items:center;
+`;
+export const UserInfo = styled.View`
   flex-direction: row;
-  justify-content:space-between;
   align-items:center;
 `;
 
+export const Photo = styled.Image`
+  width:${RFValue(60)}px;
+  height:${RFValue(60)}px;
+  border-radius: 10px;
+  
+`;
 export const User = styled.View`
-  flex-direction: row;
-  align-items:center;
   margin-left: 18px;
 `;
 
-export const UserGreeting = styled.Text`
-  color:${(props)=> props.theme.colors.shape};
-  font-family:${(props)=> props.theme.fonts.heading}; 
+export const UserName = styled.Text`
+  color:white;
   font-size:${RFValue(18)}px;
+  font-family:${(props)=> props.theme.fonts.heading};
 `;
 
-export const LogoutButton = styled.TouchableOpacity``;
-
-export const Icon = styled(Feather)`
-   font-size:${RFValue(24)}px;
+export const Product = styled.View`
+  margin-top: 18px;
 `;
 
-export const HeaderSubtitle = styled.View`
-  width:100%;
-  padding-left: 20px;
-  margin-top: ${getStatusBarHeight() + 50}px;
-`;
-
-export const Title = styled.Text`
-  font-size: ${RFValue(30)}px;
-  font-family: ${({theme})=>theme.fonts.heading};
-  color: ${({theme})=>theme.colors.title};
+export const ProductText = styled.Text`
+  color:white;
+  font-size:${RFValue(24)}px;
+  font-family:${(props)=> props.theme.fonts.heading};
 `;
 
 export const SubTitle = styled.Text`
